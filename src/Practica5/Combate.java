@@ -8,7 +8,7 @@ public final class Combate {
             System.out.println(p2.toString());
 
             do {
-                if (p1.getAgilidad() >= p2.getAgilidad() *2) {
+                if (p1.getAgilidad() >= p2.getAgilidad() * 2) {
                     System.out.println(p1.getNombre() + " Este persona ataca 2 veces. ");
                     p2.setVitalidad(p2.getVitalidad() - (p1.luchar()) * 2);
                     System.out.println(p1.getNombre() + " Inflige un daño de " + p1.luchar() * 2);

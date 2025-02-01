@@ -146,7 +146,7 @@ public abstract class Personaje {
     public void subirNivel() {
         nivel++;
         vitalidad = vitalidad + 10 / 100;
-        int probabilidad = (int) (Math.random() * 100 ) + 1;
+        int probabilidad = (int) (Math.random() * 100) + 1;
         if (probabilidad >= 50) {
             fuerza += nivel;
         }
