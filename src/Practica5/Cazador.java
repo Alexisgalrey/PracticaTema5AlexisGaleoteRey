@@ -26,7 +26,7 @@ public class Cazador extends Personaje {
     public void subirNivel() {
         setNivel(getNivel());
 
-        int probabilidad = (int) (Math.random() * 100) + 1;
+        int probabilidad = (int) (Math.random() *  100) + 1;
         if (probabilidad >= 50) {
             setVitalidad(getVitalidad());
         }

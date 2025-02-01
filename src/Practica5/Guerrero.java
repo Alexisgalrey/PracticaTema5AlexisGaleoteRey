@@ -35,7 +35,7 @@ public class Guerrero extends Personaje {
         if (probabilidad >= 25) {
             setFortalezaFisica(getFortalezaFisica() + getNivel());
         }
-        if (probabilidad >= 80) {
+        if (probabilidad >=  80) {
             setResistenciaMagica(getResistenciaMagica() + getNivel());
         }
     }
