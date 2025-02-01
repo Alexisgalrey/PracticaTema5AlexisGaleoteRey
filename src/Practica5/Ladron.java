@@ -39,7 +39,7 @@ public class Ladron extends Personaje {
 
         }
         if (probabilidad >= 15) {
-            setAgilidad(getAgilidad() + getNivel() * (int) 2);
+            setAgilidad(getAgilidad() + getNivel() * (int)  2);
         }
         if (probabilidad >= 60) {
             setFortalezaFisica(getFortalezaFisica() + getNivel());

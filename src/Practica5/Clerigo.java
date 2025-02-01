@@ -37,7 +37,7 @@ public class Clerigo extends Creyente {
         }
     }
 
-    public void plegaria(int a, String objetivo) {
+    public void plegaria(int a , String objetivo) {
         switch (a) {
             case 1:
                 System.out.println("Sana el 70% de sus puntos de fe como vida a un aliado.");

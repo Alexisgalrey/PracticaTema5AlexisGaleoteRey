@@ -74,7 +74,7 @@ public class Mago extends Personaje {
 
     public void apoyar(int hechizo, String b) {
         if (hechizo == 2) {
-            setFortalezaFisica(getMagia() * (int) 0.5);
+            setFortalezaFisica(getMagia() * (int)  0.5);
             setResistenciaMagica(getMagia() * (int) 0.5);
         }
         if (hechizo == 4) {

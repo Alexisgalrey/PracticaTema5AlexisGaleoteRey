@@ -14,7 +14,7 @@ public class Monstruo extends Personaje {
     public void setRaza() {
         switch (getRaza()) {
             case "Bestia":
-                setFortalezaFisica(getNivel() / 2);
+                setFortalezaFisica(getNivel() /  2);
                 setResistenciaMagica(getNivel() / 2);
                 setFuerza(getNivel() * 2);
                 setAgilidad(getNivel() * 2);

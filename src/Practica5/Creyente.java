@@ -10,7 +10,7 @@ public abstract class Creyente extends Personaje {
     }
 
     public Creyente(String nombre, String raza, int fe) {
-        super(nombre, raza);
+        super(nombre,  raza);
         this.fe = fe;
     }
 
