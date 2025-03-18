@@ -1,23 +1,39 @@
 package Practica5;
 
-public class Mago extends Personaje {
-    private int magia;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
-    public Mago(int magia) {
+public class Mago extends Personaje {
+    private double magia;
+
+    public Mago() {
         super();
-        this.magia = 10;
+        this.magia = -1;
     }
 
-    public Mago(String nombre, String raza, boolean estado, int nivel, int vitalidad, int fuerza, int agilidad, int fortalezaFisica, int resistenciaMagica, int magia) {
-        super(nombre, raza, estado, nivel, vitalidad, fuerza, agilidad, fortalezaFisica, resistenciaMagica);
+    public Mago(String nombre, String raza, int magia) {
+        super(nombre, raza);
         setMagia(10);
     }
+
+    public Mago(String path) throws IOException {
+        FileReader fr = new FileReader(path + ".txt");
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            System.out.println(linea);
+        }
+        br.close();
+        fr.close();
+    }
+
 
     public void setMagia(int magia) {
         this.magia = magia;
     }
 
-    public int getMagia() {
+    public double getMagia() {
         return magia;
     }
 
@@ -49,46 +65,46 @@ public class Mago extends Personaje {
 
     }
 
-    public void lanzarConjuro(int hechizo, String objetivo) {
-        switch (hechizo) {
-            case (1):
-                hechizo = getVitalidad() - magia * (int) 0.75;
-                break;
-            case (2):
-                hechizo = getFortalezaFisica() + magia * (int) 0.5;
-                hechizo = getResistenciaMagica() + magia * (int) 0.5;
-                break;
-            case (3):
-                hechizo = getVitalidad() + magia * (int) 0.3;
-                break;
-            case (4):
-                hechizo = getAgilidad() + magia;
-                break;
-
+    public double lanzarConjuro(int hechizo, String objetivo){
+        switch (hechizo){
+            case 1:
+                return 0.7*this.getMagia();
+            case 2:
+                return 0.5*this.getMagia();
+            case 3:
+                return 0.3*this.getMagia();
+            case 4:
+                return this.getMagia();
+            default:
+                System.err.println("ERROR. NO EXISTE EL CONJURO.");
+                return 0;
         }
     }
 
-    public int luchar(int hechizo, String Personaje) {
-        return hechizo;
-    }
-
-    public void apoyar(int hechizo, String b) {
-        if (hechizo == 2) {
-            setFortalezaFisica(getMagia() * (int)  0.5);
-            setResistenciaMagica(getMagia() * (int) 0.5);
+        public double luchar ( int hechizo, String objetivo){
+            if (hechizo == 1 || hechizo == 3)
+                return this.lanzarConjuro(hechizo, objetivo);
+            else {
+                System.err.println("El hechizo no hace daño");
+                return 0;
+            }
         }
-        if (hechizo == 4) {
-            setAgilidad(getMagia() * 2);
+
+    public double apoyo(int conjuro, String objetivo){
+        if (conjuro == 2 || conjuro == 4)
+            return this.lanzarConjuro(conjuro, objetivo);
+        else return 0;
+    }
+
+
+        public String toString () {
+            String resultado = "";
+            resultado =
+             super.toString()
+                    + "\n El mago tiene " + magia + " Puntos de magia. ";
+            return resultado;
+
         }
-    }
-
-
-    public String toString() {
-        String resultado = super.toString()
-                + "\n El mago tiene " + magia + " Puntos de magia. ";
-        return resultado;
 
     }
-
-}
 

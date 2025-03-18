@@ -1,5 +1,10 @@
 package Practica5;
 
+import javax.imageio.IIOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Guerrero extends Personaje {
 
     private boolean furia;
@@ -9,11 +14,24 @@ public class Guerrero extends Personaje {
         this.furia = false;
     }
 
-    public Guerrero(String nombre, String raza, boolean estado, int nivel, int vitalidad, int fuerza, int agilidad, int fortalezaFisica, int resistenciaMagica, boolean furia) {
-        super(nombre, raza, estado, nivel, vitalidad, fuerza, agilidad, fortalezaFisica, resistenciaMagica);
+    public Guerrero(String nombre, String raza, boolean furia) {
+        super(nombre, raza);
         this.furia = furia;
     }
 
+   /* public Guerrero(String path) throws IOException {
+        FileReader fr = new FileReader(path + ".txt");
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            System.out.println(linea);
+        }
+        br.close();
+        fr.close();
+
+    }
+
+*/
     public boolean getFuria() {
         return furia;
     }
@@ -35,42 +53,29 @@ public class Guerrero extends Personaje {
         if (probabilidad >= 25) {
             setFortalezaFisica(getFortalezaFisica() + getNivel());
         }
-        if (probabilidad >=   80) {
+        if (probabilidad >= 80) {
             setResistenciaMagica(getResistenciaMagica() + getNivel());
         }
     }
 
-    public int luchar() {
-        int luchar;
-        luchar = getFuerza();
-        if (furia == true) {
-            setFuerza(getFuerza() * 2);
-            setFortalezaFisica(getFortalezaFisica() / 2);
-        } else {
-            getFuerza();
-        }
-        return luchar;
+    public double luchar() {
+        if (getFuria())
+            return this.getFuerza() * 2;
+        else return this.getFuerza();
     }
 
-    public void defender(int luchar, String tipoDaño) {
-        switch (tipoDaño) {
-            case "fisico":
-                if (furia == true) {
-
-                }
-                luchar = luchar - getFortalezaFisica();
-                luchar -= getVitalidad();
-                break;
-            case "magico":
-                luchar -= getResistenciaMagica();
-                luchar -= getVitalidad();
-                break;
-        }
+    public void defender(int ataque, String tipo) {
+        if (tipo.equals("físico"))
+            if (getFuria())
+                this.setVitalidad(this.getVitalidad() - (ataque - 0.5 * this.getFortalezaFisica()));
+            else this.setVitalidad(this.getVitalidad() - (ataque - this.getFortalezaFisica()));
+        else if (tipo.equals("mágico"))
+            this.setVitalidad(this.getVitalidad() - (ataque - this.getResistenciaMagica()));
     }
 
     public String toString() {
         String resultado = "";
-        if (furia) {
+        if (furia == true) {
             resultado = super.toString()
                     + "\nEl guerrero está furioso.";
         } else {
@@ -80,4 +85,5 @@ public class Guerrero extends Personaje {
 
         return resultado;
     }
+
 }

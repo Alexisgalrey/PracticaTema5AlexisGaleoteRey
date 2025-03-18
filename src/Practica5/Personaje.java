@@ -5,35 +5,35 @@ public abstract class Personaje {
     private String raza;
     private Boolean estado;
     private int nivel;
-    private int vitalidad;
-    private int fuerza;
-    private int agilidad;
-    private int fortalezaFisica;
-    private int resistenciaMagica;
+    private double vitalidad;
+    private double fuerza;
+    private double agilidad;
+    private double fortalezaFisica;
+    private double resistenciaMagica;
 
 
     public Personaje() {
         nombre = "";
         raza = "";
-        estado = true;
         nivel = 1;
         vitalidad = 100;
         fuerza = 10;
         agilidad = 10;
         fortalezaFisica = 10;
         resistenciaMagica = 10;
+        estado = true;
     }
 
     public Personaje(String nombre, String raza, boolean estado, int nivel, int vitalidad, int fuerza, int agilidad, int fortalezaFisica, int resistenciaMagica) {
         this.nombre = nombre;
         this.raza = raza;
-        this.estado = estado;
         this.nivel = 10;
         this.vitalidad = 100;
         this.fuerza = 10;
         this.agilidad = 10;
         this.fortalezaFisica = 10;
         this.resistenciaMagica = 10;
+        this.estado = true;
     }
 
     public Personaje(Personaje copia) {
@@ -46,7 +46,7 @@ public abstract class Personaje {
         this.agilidad = copia.agilidad;
         this.fortalezaFisica = copia.fortalezaFisica;
         this.resistenciaMagica = copia.resistenciaMagica;
-        this.estado = true;
+
     }
 
     public Personaje(String nombre, String raza) {
@@ -85,43 +85,43 @@ public abstract class Personaje {
         this.nivel = nivel;
     }
 
-    public int getVitalidad() {
+    public double getVitalidad() {
         return vitalidad;
     }
 
-    public void setVitalidad(int vitalidad) {
+    public void setVitalidad(double vitalidad) {
         this.vitalidad = vitalidad;
     }
 
-    public int getFuerza() {
+    public double getFuerza() {
         return fuerza;
     }
 
-    public void setFuerza(int fuerza) {
+    public void setFuerza(double fuerza) {
         this.fuerza = fuerza;
     }
 
-    public int getAgilidad() {
+    public double getAgilidad() {
         return agilidad;
     }
 
-    public void setAgilidad(int agilidad) {
+    public void setAgilidad(double agilidad) {
         this.agilidad = agilidad;
     }
 
-    public int getFortalezaFisica() {
+    public double getFortalezaFisica() {
         return fortalezaFisica;
     }
 
-    public void setFortalezaFisica(int fortalezaFisica) {
+    public void setFortalezaFisica(double fortalezaFisica) {
         this.fortalezaFisica = fortalezaFisica;
     }
 
-    public int getResistenciaMagica() {
+    public double getResistenciaMagica() {
         return resistenciaMagica;
     }
 
-    public void setResistenciaMagica(int resistenciaMagica) {
+    public void setResistenciaMagica(double resistenciaMagica) {
         this.resistenciaMagica = resistenciaMagica;
     }
 
@@ -161,40 +161,40 @@ public abstract class Personaje {
         }
     }
 
-    //DARLE VUELTAS PORQUE CREO QUE ESTA MAL
-    public int luchar() {
-        int luchar;
-        luchar = fuerza;
-        return luchar;
+
+    public double luchar() {
+        return getFuerza();
     }
 
-    //DARLE VUELTAS EL SWITCH EN STRING
-    public void defender(int luchar, String tipoDaño) {
-        switch (tipoDaño) {
-            case "fisico":
-                luchar = luchar - fortalezaFisica;
-                luchar -= vitalidad;
-                break;
-            case "magico":
-                luchar -= resistenciaMagica;
-                luchar -= vitalidad;
-                break;
-        }
+
+    public void defender(double ataque, String tipo) {
+        if (tipo.equals("físico"))
+            this.setVitalidad(this.getVitalidad() - (ataque - this.getFortalezaFisica()));
+        else if (tipo.equals("mágico"))
+            this.setVitalidad(this.getVitalidad() - (ataque - this.getResistenciaMagica()));
     }
+
+    public String nombreClase() {
+        return this.getClass().getSimpleName();
+    }
+
 
     public String toString() {
-        String resultado = "Este Personaje se llama: /n" + getNombre() +
-                "De raza: /n" + getRaza() +
-                "Es de nivel: /n" + getNivel() +
-                "Su vitalidad es: /n" + getVitalidad() +
-                "Su fuerza es: /n" + getFuerza() +
-                "Su agilidad es: /n" + getAgilidad() +
-                "Su fortaleza fisica es: /n" + getFortalezaFisica() +
-                "Y su resistencia magica es: /n" + getResistenciaMagica();
+        String resultado = "Ficha del personaje " + getNombre() + "\n" +
+                "\n" +
+                "Nombre: " + getNombre() + "\n" +
+                "Clase: " + nombreClase() + "\n" +
+                "Raza: " + getRaza() + "\n" + "\n" +
+                "Nivel: " + getNivel() + "\n" +
+                "Vida: " + getVitalidad() + "\n" +
+                "Ataque: " + getFuerza() + "\n" +
+                "Velocidad: " + getAgilidad() + "\n" +
+                "Armadura: " + getFortalezaFisica() + "\n" +
+                "Resistencia mágica: " + getResistenciaMagica() + "\n";
         if (estado = true) {
-            System.out.println("El personaje esta vivo:");
+            resultado += "Esta actualmente: vivo";
         } else {
-            System.out.println("El personaje esta muerto");
+            resultado += "Esta actualmente: muerto";
         }
         return resultado;
     }

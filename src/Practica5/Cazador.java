@@ -1,32 +1,72 @@
 package Practica5;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Cazador extends Personaje {
 
-    Mascota mascota;
+    private class CompaAnimal extends Personaje {
+
+        public CompaAnimal() {
+            super();
+        }
+
+
+        public CompaAnimal(String nombre, String raza) {
+            super(nombre, raza);
+
+        }
+
+
+        @Override
+        public void setRaza(String raza) {
+            switch (raza.toLowerCase()) {
+                case "cánido", "felino", "rapaz":
+                    super.setRaza(raza);
+                    break;
+                default:
+                    super.setRaza("");
+            }
+        }
+
+
+        public String toString() {
+            return super.toString();
+        }
+    }
+
+
+    private CompaAnimal animalComp;
+
 
     public Cazador() {
         super();
-        this.mascota = new Mascota();
+        this.animalComp = new CompaAnimal();
     }
 
-    public Cazador(String nombre, String raza, boolean estado, int nivel, int vitalidad, int fuerza, int agilidad, int fortalezaFisica, int resistenciaMagica) {
-        super(nombre, raza, estado, nivel, vitalidad, fuerza, agilidad, fortalezaFisica, resistenciaMagica);
-        this.mascota = new Mascota();
-    }
 
-    public Cazador(String nombre, String raza, String razaAnimal) {
+    public Cazador(String nombre, String raza, String animalNombre, String animalRaza) {
         super(nombre, raza);
-        this.mascota = new Mascota(razaAnimal);
+        this.animalComp = new CompaAnimal(animalNombre, animalRaza);
+        switch (this.animalComp.getRaza().toLowerCase()) {
+            case "cánido":
+                this.setCanido();
+                break;
+            case "felino":
+                this.setFelino();
+                break;
+            case "rapaz":
+                this.setRapaz();
+                break;
+        }
     }
 
-    public int luchar() {
-        return getFuerza() + mascota.getFuerza();
-    }
 
     public void subirNivel() {
         setNivel(getNivel());
 
-        int probabilidad = (int) (Math.random() *  100) + 1;
+        int probabilidad = (int) (Math.random() * 100) + 1;
         if (probabilidad >= 50) {
             setVitalidad(getVitalidad());
         }
@@ -45,68 +85,44 @@ public class Cazador extends Personaje {
         }
     }
 
+
+    @Override
+    public double luchar() {
+        return this.getFuerza() + this.animalComp.getFuerza();
+    }
+
+
+    public void setCanido() {
+        this.animalComp.setVitalidad(0.2 * this.getVitalidad());
+        this.animalComp.setFuerza(0.2 * this.getFuerza());
+        this.animalComp.setFortalezaFisica(0.2 * this.getFortalezaFisica());
+        this.animalComp.setResistenciaMagica(0.2 * this.getResistenciaMagica());
+        this.animalComp.setAgilidad(0.2 * this.getAgilidad());
+    }
+
+
+    public void setFelino() {
+        this.animalComp.setVitalidad(0.15 * this.getVitalidad());
+        this.animalComp.setFuerza(0.3 * this.getFuerza());
+        this.animalComp.setFortalezaFisica(0.15 * this.getFortalezaFisica());
+        this.animalComp.setResistenciaMagica(0.15 * this.getResistenciaMagica());
+        this.animalComp.setAgilidad(0.3 * this.getAgilidad());
+    }
+
+
+    public void setRapaz() {
+        this.animalComp.setVitalidad(0.05 * this.getVitalidad());
+        this.animalComp.setFuerza(0.15 * this.getFuerza());
+        this.animalComp.setFortalezaFisica(0.05 * this.getFortalezaFisica());
+        this.animalComp.setResistenciaMagica(0.25 * this.getResistenciaMagica());
+        this.animalComp.setAgilidad(0.35 * this.getAgilidad());
+    }
+
+
+    @Override
     public String toString() {
-        String resultado = super.toString()
-                + "\n El cazador tiene una mascota: " + getRaza() ;
-        return resultado;
-
-    }
-
-}
-
-class Mascota extends Personaje {
-
-    public Mascota() {
-        super();
-    }
-
-    public Mascota(String raza) {
-        super("Mascota", raza);
-    }
-
-    public void setRaza() {
-        switch (getRaza().toLowerCase()) {
-            case "canido":
-                getRaza();
-                break;
-
-            case "felino":
-                getRaza();
-                break;
-
-            case "rapaz":
-                getRaza();
-                break;
-
-        }
-    }
-
-    public void ranido(String raza){
-        setVitalidad(getVitalidad());
-        setFuerza(getFuerza()* (int) 0.2);
-        setFortalezaFisica(getFortalezaFisica() * (int) 0.2);
-        setAgilidad(getAgilidad() * (int) 0.2);
-        setResistenciaMagica(getResistenciaMagica() * (int) 0.2);
-    }
-
-    public void relino(String raza){
-        setVitalidad(getVitalidad());
-        setFuerza(getFuerza()* (int) 0.3);
-        setFortalezaFisica(getFortalezaFisica() * (int) 0.15);
-        setAgilidad(getAgilidad() * (int) 0.3);
-        setResistenciaMagica(getResistenciaMagica() * (int) 0.15);
-    }
-
-    public void rapaz (String raza){
-        setVitalidad(getVitalidad() * (int) 0.5);
-        setFuerza(getFuerza()* (int) 0.15);
-        setFortalezaFisica(getFortalezaFisica() * (int) 0.5);
-        setAgilidad(getAgilidad() * (int) 0.35);
-        setResistenciaMagica(getResistenciaMagica() * (int) 0.25);
-    }
-
-    public String toString(){
-
-        return super.toString() + getRaza();
+        return super.toString() +
+                "\nAdemás, tiene un compañero animal: " +
+                this.animalComp.toString();
     }
 }

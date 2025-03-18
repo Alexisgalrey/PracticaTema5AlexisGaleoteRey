@@ -1,19 +1,31 @@
 package Practica5;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Clerigo extends Creyente {
 
     public Clerigo() {
         super();
     }
 
-    public Clerigo(String nombre, String raza, int fe) {
+    public Clerigo(String nombre, String raza, double fe) {
 
         super(nombre, raza, fe);
     }
-
-    public double luchar(double hechizo) {
-        return hechizo;
+    public Clerigo (String path) throws IOException {
+        FileReader fr = new FileReader(path + ".txt");
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            System.out.println(linea);
+        }
+        br.close();
+        fr.close();
     }
+
+
 
     public void subirNivel() {
         setNivel(getNivel());
@@ -30,40 +42,39 @@ public class Clerigo extends Creyente {
             setFortalezaFisica(getFortalezaFisica() + getNivel() / 2);
         }
         if (probabilidad >= 20) {
-            setFe(getFe() + getNivel() * 2);
+            setFe((int) (getFe() + getNivel() * 2));
         }
         if (probabilidad >= 20) {
             setResistenciaMagica(getResistenciaMagica() + getNivel() * 2);
         }
     }
 
-    public void plegaria(int a , String objetivo) {
-        switch (a) {
+    public double plegaria(int tipo , String objetivo) {
+        switch (tipo) {
             case 1:
-                System.out.println("Sana el 70% de sus puntos de fe como vida a un aliado.");
-                break;
-
+                return 0.7*this.getFe();
             case 2:
-                System.out.println(" sana el 35% de sus puntos de fe como vida a todo el grupo.");
-                break;
-
+                return 0.35*this.getFe();
             case 3:
-                System.out.println("Causa el 55% de sus puntos de fe como daño sagrado a un objetivo.");
-                break;
+                return 0.55*this.getFe();
+            default:
+                return 0;
         }
     }
 
-    public void apoyar(int hechizo, String b) {
-        if (hechizo == 1) {
-            setVitalidad(getFe() * (int) 0.7);
-        }
-        if (hechizo == 2) {
-            setVitalidad(getFe() * (int) 0.7);
-        }
+    public double luchar(int tipo, String objetivo){
+        if(tipo == 3)
+            return this.plegaria(tipo, objetivo);
+        else return 0;
+    }
+    public double apoyo(int tipo, String objetivo){
+        if (tipo == 1 || tipo == 2)
+            return this.plegaria(tipo, objetivo);
+        else return 0;
     }
 
     public String toString() {
-        return "La fe del clerigo es de: " + getFe();
+        return super.toString() + "La fe del clerigo es de: " + getFe();
     }
 
 }

@@ -1,5 +1,9 @@
 package Practica5;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Ladron extends Personaje {
     private boolean robar;
 
@@ -10,9 +14,20 @@ public class Ladron extends Personaje {
 
     }
 
-    public Ladron(String nombre, String raza, boolean estado, int nivel, int vitalidad, int fuerza, int agilidad, int fortalezaFisica, int resistenciaMagica, boolean robar) {
-        super(nombre, raza, estado, nivel, vitalidad, fuerza, agilidad, fortalezaFisica, resistenciaMagica);
+    public Ladron(String nombre, String raza) {
+        super(nombre, raza);
         this.robar = false;
+    }
+
+    public Ladron(String path) throws IOException {
+        FileReader fr = new FileReader(path + ".txt");
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            System.out.println(linea);
+        }
+        br.close();
+        fr.close();
     }
 
     public void setRobar(boolean robar) {
@@ -39,7 +54,7 @@ public class Ladron extends Personaje {
 
         }
         if (probabilidad >= 15) {
-            setAgilidad(getAgilidad() + getNivel() * (int)  2);
+            setAgilidad(getAgilidad() + getNivel() * 2);
         }
         if (probabilidad >= 60) {
             setFortalezaFisica(getFortalezaFisica() + getNivel());
@@ -51,7 +66,8 @@ public class Ladron extends Personaje {
 
 
     public String toString() {
-        String resultado = super.toString()
+        String resultado = "";
+        resultado = super.toString()
                 + "\n El ladron tiene la habilidad especial robar:" + getRobar();
         return resultado;
 
