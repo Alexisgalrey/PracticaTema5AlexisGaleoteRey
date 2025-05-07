@@ -1,6 +1,8 @@
 package Practica5;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Clase abstracta que representa un personaje en un juego.
@@ -16,6 +18,11 @@ public abstract class Personaje {
     private double agilidad;
     private double fortalezaFisica;
     private double resistenciaMagica;
+    private Arma armaEquipada;
+    private HashMap<String, Armadura> armaduraEquipada = new HashMap<>();
+    private ArrayList<Artefacto> artefactos = new ArrayList<>(3);
+
+
 
     private static String rutaLectura = "/home/tarde/Escritorio/Asignaturas DAM/Asignaturas/Programacion/Tema 6/Practica/";
     private static String rutaEscritura = "/home/tarde/Escritorio/Asignaturas DAM/Asignaturas/Programacion/Tema 6/Practica/";
@@ -60,13 +67,58 @@ public abstract class Personaje {
         setEstado(getEstado());
     }
 
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public void equiparArma(Arma arma) {
+        this.armaEquipada = arma;
+    }
+
+    public void equiparArmadura(Armadura armadura) {
+        if (armaduraEquipada.size() < 6 && !armaduraEquipada.containsKey(armadura.getTipo())) {
+            armaduraEquipada.put(armadura.getTipo(), armadura);
+        }
+    }
+
+    public void equiparArtefacto(Artefacto artefacto) {
+        if (artefactos.size() < 3) {
+            int amuletos = 0;
+            int anillos = 0;
+
+            for (Artefacto a : artefactos) {
+                String tipo = a.getTipo();
+                if (tipo.equals("amuleto")) amuletos++;
+                else if (tipo.equals("anillo")) anillos++;
+            }
+
+            String tipoArtefacto = artefacto.getTipo();
+            if (tipoArtefacto.equals("amuleto") && amuletos <= 1) {
+                artefactos.add(artefacto);
+            } else if (tipoArtefacto.equals("anillo") && anillos <= 2) {
+                artefactos.add(artefacto);
+            }
+        }
+    }
+
+    public Arma getArmaEquipada() {
+        return this.armaEquipada;
+    }
+
+
+    public HashMap<String, Armadura> getArmaduraEquipada() {
+        return new HashMap<>(this.armaduraEquipada);
+    }
+
+
+    public ArrayList<Artefacto> getArtefactos() {
+        return new ArrayList<>(this.artefactos);
+    }
+
+
     /**
      * Constructor que inicializa un Personaje a partir de un archivo de texto.
      *
      * @param path Ruta del archivo.
      * @throws IOException Si ocurre un error de lectura del archivo.
      */
-    // EJERCICIO 3:
     public Personaje(String path) throws IOException {
         File fichero = new File(path + ".txt");
         if (fichero.canRead()) {

@@ -28,6 +28,26 @@ public class Clerigo extends Creyente {
         super(nombre, raza, fe);
     }
 
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    public void equiparArma (Arma arma){
+        String tipoArma = arma.getTipo();
+        if(tipoArma.equals("baston")){
+            super.equiparArma(arma);
+        }else{
+            System.out.println("Los clerigos solo pueden usar bastones");
+        }
+    }
+
+    public void equiparArmadura (Armadura armadura) {
+        String tipoMaterial = armadura.getMaterial();
+        if (tipoMaterial.equals("tela")){
+            super.equiparArmadura(armadura);
+        }else{
+            System.out.println("Los clerigos solo puede usar armaduras de tela");
+        }
+    }
+
     /**
      * Constructor de la clase Clerigo que inicializa los atributos del personaje
      * leyendo los datos desde un archivo de texto.
@@ -36,7 +56,7 @@ public class Clerigo extends Creyente {
      * @param fe   Valor inicial del atributo de fe.
      * @throws IOException Si ocurre un error al leer el archivo de datos.
      */
-    // EJERCICIO 3:
+
     public Clerigo(String path, double fe) throws IOException {
         super(path);
         File fichero = new File(path + ".txt");
@@ -69,7 +89,7 @@ public class Clerigo extends Creyente {
      * @param feFicha                Valor de fe a verificar y actualizar.
      * @throws IOException Si ocurre un error al leer el archivo de datos.
      */
-    // EJERCICIO 4:
+
     public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
                                double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, double feFicha) throws IOException {
 

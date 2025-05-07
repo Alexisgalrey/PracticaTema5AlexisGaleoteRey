@@ -13,6 +13,7 @@ import java.io.IOException;
 public class Guerrero extends Personaje {
 
     private boolean furia;
+    private Arma armaComplementaria;
 
     /**
      * Constructor por defecto que inicializa un Guerrero con furia desactivada.
@@ -34,9 +35,34 @@ public class Guerrero extends Personaje {
         this.furia = furia;
     }
 
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    public void equiparArmaComplementaria(Arma arma1, Arma arma2) {
+        if (arma1.getEmpuñadura().equals("una mano") && arma2.getEmpuñadura().equals("una mano")) {
+            super.equiparArma(arma1);
+            this.armaComplementaria = arma2;
+        }
+    }
+
+    @Override
+    public void equiparArma(Arma arma) {
+        if (arma.getTipo().equals("cetro") || arma.getTipo().equals("arco") || arma.getTipo().equals("baston")) {
+            System.out.println("Los guerreros no pueden usar este tipo de arma");
+        } else {
+            super.equiparArma(arma);
+        }
+    }
+
+    @Override
+    public void equiparArmadura(Armadura armadura) {
+        if (!armadura.getMaterial().equals("metal")) {
+            System.out.println("La armadura de los guerreros debe ser de metal");
+        } else {
+            super.equiparArmadura(armadura);
+        }
+    }
     /**
      * Constructor de la clase Guerrero que inicializa el objeto con los datos de un archivo.
-     * <p>
      * Este constructor invoca al constructor de la clase padre para inicializar el objeto. Luego, lee el archivo especificado
      * por la ruta proporcionada, buscando el valor de "furia" y asignándolo al atributo correspondiente.
      *
@@ -44,7 +70,7 @@ public class Guerrero extends Personaje {
      * @param furia Valor booleano que indica si el guerrero está en furia.
      * @throws IOException Si ocurre un error al leer el archivo.
      */
-// EJERCICIO 3:
+
     public Guerrero(String path, boolean furia) throws IOException {
         super(path);
         File fichero = new File(path + ".txt");
@@ -79,7 +105,7 @@ public class Guerrero extends Personaje {
      * @param furiaFicha             Valor booleano que indica si el guerrero está en furia.
      * @throws IOException Si ocurre un error durante la actualización de la ficha.
      */
-    // EJERCICIO 4:
+
     public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
                                double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, boolean furiaFicha) throws IOException {
 

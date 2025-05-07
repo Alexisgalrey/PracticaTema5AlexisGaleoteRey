@@ -27,6 +27,59 @@ public class Monstruo extends Personaje {
         super(nombre, raza);
     }
 
+    public void puedeEquiparArma(Arma arma) {
+        switch (getRaza()) {
+            case "No-muertos":
+                super.equiparArma(arma);
+            break;
+            case "bestias":
+                System.out.println("Las bestias no pueden llevar arma");
+                break;
+            case "gigantes":
+                System.out.println("Los gigantes no pueden llevar arma");
+                break;
+            default:
+                System.out.println("Solo los no muertos pueden usar armas.");;
+        }
+    }
+
+    public void puedeEquiparArmadura(String tipoMaterial, Armadura armadura) {
+        switch (getRaza()) {
+            case "Gigantes":
+                if(tipoMaterial.equals("cuero")){
+            super.equiparArmadura(armadura);
+                }
+            break;
+            case "no-muertos":
+                System.out.println("Los no muertos no llevan armadura");
+                break;
+            case "bestias":
+                System.out.println("Las bestias no pueden llevar armadura");
+                break;
+            default:
+                System.out.println("Solo los gigantes pueden usar armadura");
+        }
+    }
+
+    public void puedeEquiparArtefacto(String tipoArtefacto, Artefacto artefacto) {
+        switch (getRaza()) {
+            case "bestias":
+                if(tipoArtefacto.equals("amuleto")){
+                super.equiparArtefacto(artefacto);
+                }
+                break;
+            case "Gigantes":
+                System.out.println("Los gigantes no pueden equipar artefactos.");
+                break;
+            case "no-muertos":
+                System.out.println("Los no muertos no pueden equipar artefactos.");
+                break;
+
+            default:
+                System.out.println("Solo las bestias pueden usar artefactos");
+        }
+    }
+
     /**
      * Constructor que inicializa un Monstruo a partir de un archivo de texto.
      *

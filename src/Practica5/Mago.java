@@ -32,6 +32,29 @@ public class Mago extends Personaje {
         setMagia(10);
     }
 
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    @Override
+    public void equiparArma(Arma arma) {
+        String tipoArma = arma.getTipo();
+        if (tipoArma.equals("cetro") || tipoArma.equals("baston")) {
+            super.equiparArma(arma);
+        } else {
+            System.out.println("Los magos solo pueden usar cetros o bastones.");
+        }
+    }
+
+    @Override
+    public void equiparArmadura(Armadura armadura) {
+           String material = armadura.getMaterial();
+        if (material.equals("tela")) {
+            super.equiparArmadura(armadura);
+        } else {
+            System.out.println("La armadura de los magos debe ser de tela.");
+        }
+    }
+
+
     /**
      * Constructor que inicializa un Mago a partir de un archivo de texto y asigna su magia.
      *
@@ -39,7 +62,7 @@ public class Mago extends Personaje {
      * @param magia Valor de la magia del Mago.
      * @throws IOException Si ocurre un error de lectura del archivo.
      */
-    // EJERCICIO 3:
+
     public Mago(String path, double magia) throws IOException {
         super(path);
         File fichero = new File(path + ".txt");
@@ -71,7 +94,7 @@ public class Mago extends Personaje {
      * @param magiaFicha             Valor de la magia del mago en la ficha.
      * @throws IOException Si ocurre un error de lectura.
      */
-    // EJERCICIO 4:
+
     public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
                                double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, double magiaFicha) throws IOException {
 

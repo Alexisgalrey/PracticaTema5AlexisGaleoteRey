@@ -94,13 +94,53 @@ public class Cazador extends Personaje {
         }
     }
 
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    public void equiparArma (Arma arma){
+        String tipoArma = arma.getTipo();
+        if (tipoArma.equals("espada") || (tipoArma.equals("hacha") || (tipoArma.equals("daga") || (tipoArma.equals("arco"))))) {
+            super.equiparArma(arma);
+        }else{
+            System.out.println("El cazador solo puede usar espadas, hachas, dagas o arcos.");
+        }
+    }
+
+    public void equiparArmadura (Armadura armadura) {
+        String tipoMaterial = armadura.getMaterial();
+        if (tipoMaterial.equals("tela")){
+            super.equiparArmadura(armadura);
+        }else{
+            System.out.println("El cazador solo puede usar armaduras de tela");
+        }
+    }
+
+
+    public void equiparArmaCompi(Arma arma) {
+        System.out.println("Los compañeros animales no pueden llevar armas.");
+}
+
+    public void equiparArmaduraCompi(Armadura armadura) {
+        System.out.println("Los compañeros animales no pueden llevar armaduras.");
+    }
+
+
+
+    public void equiparArtefactoCompi(Artefacto artefacto) {
+        if (artefacto.getTipo().equals("amuleto")) {   // No tengo que restringir que use solo 1 artefacto ya que en la clase personaje ya esta esa restriccion
+            super.equiparArtefacto(artefacto);
+        } else {
+            System.out.println("Los compañeros solo pueden llevar 1 amuleto.");
+        }
+    }
+
+
     /**
      * Constructor que inicializa un Cazador a partir de un archivo de texto.
      *
      * @param path Ruta del archivo.
      * @throws IOException Si ocurre un error de lectura del archivo.
      */
-    // EJERCICIO 3:
+
     public Cazador(String path) throws IOException {
         super(path);
         File fichero = new File(path + ".txt");
@@ -132,7 +172,7 @@ public class Cazador extends Personaje {
      * @param compiFicha             Compañero animal del personaje.
      * @throws IOException Si ocurre un error de lectura.
      */
-    // EJERCICIO 4:
+
     public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
                                double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, CompaAnimal compiFicha) throws IOException {
 
