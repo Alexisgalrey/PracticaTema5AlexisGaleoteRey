@@ -32,6 +32,61 @@ public class Mago extends Personaje {
         setMagia(10);
     }
 
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * Equipa un arma si es un cetro o bastón.
+     * Si el arma no es de esos tipos, muestra un mensaje indicando que solo se permiten esos tipos.
+     *
+     * @param arma El arma que se quiere equipar.
+     */
+    @Override
+    public void equiparArma(Arma arma) {
+        String tipoArma = arma.getTipo();
+        if (tipoArma.equals("cetro") || tipoArma.equals("baston")) {
+            super.equiparArma(arma);
+        } else {
+            System.out.println("Los magos solo pueden usar cetros o bastones.");
+        }
+    }
+
+    /**
+     * Equipa una armadura si es de tela.
+     * Si la armadura no es de tela, muestra un mensaje indicando que solo se permiten armaduras de tela.
+     *
+     * @param armadura La armadura que se quiere equipar.
+     */
+    @Override
+    public void equiparArmadura(Armadura armadura) {
+        String material = armadura.getMaterial();
+        if (material.equals("tela")) {
+            super.equiparArmadura(armadura);
+        } else {
+            System.out.println("La armadura de los magos debe ser de tela.");
+        }
+    }
+
+    // EJERCICIO 5 TEMA 7                                           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * Calcula y devuelve la cantidad total de magia del mago.
+     * Suma la magia base, la magia del arma equipada y la magia de todos los artefactos.
+     *
+     * @return La cantidad total de magia.
+     */
+    public double getMagia() {
+        double magiaTotal = this.magia;
+
+        if (this.getArmaEquipada() != null) {
+            magiaTotal += this.getArmaEquipada().getEstadisticas().get("magia");
+        }
+        for (Artefacto artefacto : this.getArtefactos()) {
+            magiaTotal += artefacto.getEstadisticas().get("magia");
+        }
+        return magiaTotal;
+    }
+
+
     /**
      * Constructor que inicializa un Mago a partir de un archivo de texto y asigna su magia.
      *
@@ -39,7 +94,7 @@ public class Mago extends Personaje {
      * @param magia Valor de la magia del Mago.
      * @throws IOException Si ocurre un error de lectura del archivo.
      */
-    // EJERCICIO 3:
+
     public Mago(String path, double magia) throws IOException {
         super(path);
         File fichero = new File(path + ".txt");
@@ -71,7 +126,7 @@ public class Mago extends Personaje {
      * @param magiaFicha             Valor de la magia del mago en la ficha.
      * @throws IOException Si ocurre un error de lectura.
      */
-    // EJERCICIO 4:
+
     public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
                                double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, double magiaFicha) throws IOException {
 
@@ -92,14 +147,6 @@ public class Mago extends Personaje {
         this.magia = magia;
     }
 
-    /**
-     * Obtiene los puntos de magia del Mago.
-     *
-     * @return Puntos de magia.
-     */
-    public double getMagia() {
-        return magia;
-    }
 
     /**
      * Aumenta el nivel del Mago.

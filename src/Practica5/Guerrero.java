@@ -13,6 +13,7 @@ import java.io.IOException;
 public class Guerrero extends Personaje {
 
     private boolean furia;
+    private Arma armaComplementaria;
 
     /**
      * Constructor por defecto que inicializa un Guerrero con furia desactivada.
@@ -34,9 +35,60 @@ public class Guerrero extends Personaje {
         this.furia = furia;
     }
 
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * Equipa un arma complementaria si cumple ciertas condiciones:
+     * - El arma2 no puede ser cetro, arco o bastón.
+     * - Ambas armas deben tener empuñadura de una mano.
+     * Si no cumple, muestra un mensaje de error.
+     *
+     * @param arma1 El arma principal que se quiere equipar.
+     * @param arma2 El arma complementaria que se quiere equipar.
+     */
+    public void equiparArmaComplementaria(Arma arma1, Arma arma2) {
+        if (!arma2.getTipo().equals("cetro") && !arma2.getTipo().equals("arco") && !arma2.getTipo().equals("baston")) {
+            if (arma1.getEmpuñadura().equals("una mano") && arma2.getEmpuñadura().equals("una mano")) {
+                super.equiparArma(arma1);
+                this.armaComplementaria = arma2;
+            } else {
+                System.out.println("No se puede equipar el arma. ");
+            }
+        }
+    }
+
+    /**
+     * Equipa un arma si no es cetro, arco o bastón.
+     * Si el arma es de esos tipos, muestra un mensaje indicando que los guerreros no pueden usarlos.
+     *
+     * @param arma El arma que se quiere equipar.
+     */
+    @Override
+    public void equiparArma(Arma arma) {
+        if (arma.getTipo().equals("cetro") || arma.getTipo().equals("arco") || arma.getTipo().equals("baston")) {
+            System.out.println("Los guerreros no pueden usar este tipo de arma");
+        } else {
+            super.equiparArma(arma);
+        }
+    }
+
+    /**
+     * Equipa una armadura solo si es de material metal.
+     * Si la armadura no es de metal, muestra un mensaje indicando que la armadura debe ser de metal para guerreros.
+     *
+     * @param armadura La armadura que se quiere equipar.
+     */
+    @Override
+    public void equiparArmadura(Armadura armadura) {
+        if (!armadura.getMaterial().equals("metal")) {
+            System.out.println("La armadura de los guerreros debe ser de metal");
+        } else {
+            super.equiparArmadura(armadura);
+        }
+    }
+
     /**
      * Constructor de la clase Guerrero que inicializa el objeto con los datos de un archivo.
-     * <p>
      * Este constructor invoca al constructor de la clase padre para inicializar el objeto. Luego, lee el archivo especificado
      * por la ruta proporcionada, buscando el valor de "furia" y asignándolo al atributo correspondiente.
      *
@@ -44,7 +96,7 @@ public class Guerrero extends Personaje {
      * @param furia Valor booleano que indica si el guerrero está en furia.
      * @throws IOException Si ocurre un error al leer el archivo.
      */
-// EJERCICIO 3:
+
     public Guerrero(String path, boolean furia) throws IOException {
         super(path);
         File fichero = new File(path + ".txt");
@@ -79,13 +131,11 @@ public class Guerrero extends Personaje {
      * @param furiaFicha             Valor booleano que indica si el guerrero está en furia.
      * @throws IOException Si ocurre un error durante la actualización de la ficha.
      */
-    // EJERCICIO 4:
-    public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
-                               double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, boolean furiaFicha) throws IOException {
+
+    public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha, double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, boolean furiaFicha) throws IOException {
 
 
-        super.verificarFicha(nombreFicha, razaFicha, estadoFicha, nivelFicha, vitalidadFicha, fuerzaFicha,
-                agilidadFicha, fortalezaFisicaFicha, resistenciaMagicaFicha);
+        super.verificarFicha(nombreFicha, razaFicha, estadoFicha, nivelFicha, vitalidadFicha, fuerzaFicha, agilidadFicha, fortalezaFisicaFicha, resistenciaMagicaFicha);
 
 
         if (this.furia != furiaFicha) {
@@ -134,8 +184,7 @@ public class Guerrero extends Personaje {
      * @return El valor de la fuerza del Guerrero en combate.
      */
     public double luchar() {
-        if (getFuria())
-            return this.getFuerza() * 2;
+        if (getFuria()) return this.getFuerza() * 2;
         else return this.getFuerza();
     }
 
@@ -147,11 +196,9 @@ public class Guerrero extends Personaje {
      */
     public void defender(int ataque, String tipo) {
         if (tipo.equals("físico"))
-            if (getFuria())
-                this.setVitalidad(this.getVitalidad() - (ataque - 0.5 * this.getFortalezaFisica()));
+            if (getFuria()) this.setVitalidad(this.getVitalidad() - (ataque - 0.5 * this.getFortalezaFisica()));
             else this.setVitalidad(this.getVitalidad() - (ataque - this.getFortalezaFisica()));
-        else if (tipo.equals("mágico"))
-            this.setVitalidad(this.getVitalidad() - (ataque - this.getResistenciaMagica()));
+        else if (tipo.equals("mágico")) this.setVitalidad(this.getVitalidad() - (ataque - this.getResistenciaMagica()));
     }
 
     /**
@@ -162,11 +209,9 @@ public class Guerrero extends Personaje {
     public String toString() {
         String resultado = "";
         if (furia == true) {
-            resultado = super.toString()
-                    + "\nEl guerrero está: furioso";
+            resultado = super.toString() + "\nEl guerrero está: furioso";
         } else {
-            resultado = super.toString()
-                    + "\nEl guerrero está; sin furia";
+            resultado = super.toString() + "\nEl guerrero está; sin furia";
         }
 
         return resultado;

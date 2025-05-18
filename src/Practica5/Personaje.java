@@ -1,10 +1,12 @@
 package Practica5;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Clase abstracta que representa un personaje en un juego.
- * Contiene atributos como nombre, raza, estado (vivo o muerto), nivel y estadisticas.
+ * Contiene atributos como nombre, raza, estado (vivo o muerto), nivel, estadisticas y armas para equipar.
  */
 public abstract class Personaje {
     private String nombre;
@@ -16,6 +18,10 @@ public abstract class Personaje {
     private double agilidad;
     private double fortalezaFisica;
     private double resistenciaMagica;
+    private Arma armaEquipada;
+    private HashMap<String, Armadura> armaduraEquipada = new HashMap<>();
+    private ArrayList<Artefacto> artefactoEquipado = new ArrayList<>(3);
+
 
     private static String rutaLectura = "/home/tarde/Escritorio/Asignaturas DAM/Asignaturas/Programacion/Tema 6/Practica/";
     private static String rutaEscritura = "/home/tarde/Escritorio/Asignaturas DAM/Asignaturas/Programacion/Tema 6/Practica/";
@@ -33,6 +39,10 @@ public abstract class Personaje {
         fortalezaFisica = 10;
         resistenciaMagica = 10;
         estado = true;
+        armaEquipada = new Arma();
+        armaduraEquipada = new HashMap<>();
+        artefactoEquipado = new ArrayList<>();
+
     }
 
     /**
@@ -47,8 +57,12 @@ public abstract class Personaje {
      * @param agilidad          Agilidad del personaje.
      * @param fortalezaFisica   Fortaleza física del personaje.
      * @param resistenciaMagica Resistencia mágica del personaje.
+     * @param armaEquipada      Arma para equipar
+     * @param armaduraEquipada  Armadura para equipar
+     * @param artefactoEquipado Artefacto para equipar
      */
-    public Personaje(String nombre, String raza, boolean estado, int nivel, int vitalidad, int fuerza, int agilidad, int fortalezaFisica, int resistenciaMagica, String path, String nombreFichero) throws IOException {
+    public Personaje(String nombre, String raza, boolean estado, int nivel, int vitalidad, int fuerza, int agilidad, int fortalezaFisica, int resistenciaMagica,
+                     String path, String nombreFichero, HashMap armaduraEquipada, Arma armaEquipada, ArrayList artefactoEquipado) throws IOException {
         this.nombre = nombre;
         this.raza = raza;
         this.nivel = 10;
@@ -58,7 +72,206 @@ public abstract class Personaje {
         this.fortalezaFisica = 10;
         this.resistenciaMagica = 10;
         setEstado(getEstado());
+        this.armaEquipada = new Arma(armaEquipada);
+        this.armaduraEquipada = new HashMap<>(armaduraEquipada);
+        this.artefactoEquipado = new ArrayList<>(artefactoEquipado);
     }
+
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * Equipa un arma al personaje.
+     *
+     * @param arma Arma a equipar.
+     */
+    public void equiparArma(Arma arma) {
+        this.armaEquipada = new Arma(arma);
+    }
+
+    /**
+     * Equipa una armadura si hay espacio y no hay otra del mismo tipo.
+     *
+     * @param armadura Armadura a equipar.
+     */
+    public void equiparArmadura(Armadura armadura) {
+        if (armaduraEquipada.size() < 6 && !armaduraEquipada.containsKey(armadura.getTipo())) {
+            armaduraEquipada.put(armadura.getTipo(), armadura);
+        }
+    }
+
+    /**
+     * Equipa un artefacto si hay espacio, cumpliendo las reglas de tipo (máx. 2 anillos y 1 amuleto).
+     *
+     * @param artefacto Artefacto a equipar.
+     */
+    public void equiparArtefacto(Artefacto artefacto) {
+        if (artefactoEquipado.size() < 3) {
+            int amuletos = 0;
+            int anillos = 0;
+
+            for (Artefacto a : artefactoEquipado) {
+                String tipo = a.getTipo();
+                if (tipo.equals("amuleto")) amuletos++;
+                else if (tipo.equals("anillo")) anillos++;
+            }
+
+            String tipoArtefacto = artefacto.getTipo();
+            if (tipoArtefacto.equals("amuleto") && amuletos <= 1) {
+                artefactoEquipado.add(artefacto);
+            } else if (tipoArtefacto.equals("anillo") && anillos <= 2) {
+                artefactoEquipado.add(artefacto);
+            }
+        }
+    }
+
+    /**
+     * Devuelve el arma equipada actualmente.
+     *
+     * @return Arma equipada.
+     */
+    public Arma getArmaEquipada() {
+        return this.armaEquipada;
+    }
+
+    /**
+     * Devuelve un mapa con la armadura equipada.
+     *
+     * @return Mapa de tipo de armadura y armadura.
+     */
+    public HashMap<String, Armadura> getArmaduraEquipada() {
+        return new HashMap<>(this.armaduraEquipada);
+    }
+
+    /**
+     * Devuelve una lista de artefactos equipados.
+     *
+     * @return Lista de artefactos.
+     */
+    public ArrayList<Artefacto> getArtefactos() {
+        return new ArrayList<>(this.artefactoEquipado);
+    }
+
+// EJERCICIO 5 TEMA 7                                               !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * Calcula la fuerza total del personaje sumando arma y artefactos.
+     *
+     * @return Fuerza total.
+     */
+    public double getFuerza() {
+        double fuerzaTotal = this.fuerza;
+
+        if (armaEquipada != null) {
+            fuerzaTotal += armaEquipada.recuperaEstadistica("fuerza");
+        }
+
+        for (Artefacto artefacto : artefactoEquipado) {
+            fuerzaTotal += artefacto.recuperaEstadistica("fuerza");
+        }
+        return fuerzaTotal;
+    }
+
+    /**
+     * Calcula la agilidad total del personaje sumando arma y artefactos.
+     *
+     * @return Agilidad total.
+     */
+    public double getAgilidad() {
+        double agilidadTotal = this.agilidad;
+
+        if (armaEquipada != null) {
+            agilidadTotal += armaEquipada.recuperaEstadistica("agilidad");
+        }
+        for (Artefacto artefacto : artefactoEquipado) {
+            agilidadTotal += artefacto.recuperaEstadistica("agilidad");
+        }
+        return agilidadTotal;
+    }
+
+    /**
+     * Calcula la fortaleza física total incluyendo armaduras y artefactos.
+     *
+     * @return Fortaleza física total.
+     */
+    public double getFortalezaFisica() {
+        double fortalezaTotal = this.fortalezaFisica;
+
+        for (Armadura armadura : armaduraEquipada.values()) {
+            fortalezaTotal += armadura.recuperaEstadistica("fortalezaFisica");
+        }
+
+        for (Artefacto artefacto : artefactoEquipado) {
+            fortalezaTotal += artefacto.recuperaEstadistica("fortalezaFisica");
+        }
+        return fortalezaTotal;
+    }
+
+    /**
+     * Calcula la resistencia mágica total incluyendo armaduras y artefactos.
+     *
+     * @return Resistencia mágica total.
+     */
+    public double getResistenciaMagica() {
+        double resistenciaTotal = this.resistenciaMagica;
+
+        for (Armadura armadura : armaduraEquipada.values()) {
+            resistenciaTotal += armadura.recuperaEstadistica("resistenciaMagica");
+        }
+
+        for (Artefacto artefacto : artefactoEquipado) {
+            resistenciaTotal += artefacto.recuperaEstadistica("resistenciaMagica");
+        }
+        return resistenciaTotal;
+    }
+
+    /**
+     * Calcula la vitalidad total del personaje incluyendo armaduras y artefactos.
+     *
+     * @return Vitalidad total.
+     */
+    public double getVitalidad() {
+        double vitalidadTotal = this.vitalidad;
+
+        for (Armadura armadura : armaduraEquipada.values()) {
+            vitalidadTotal += armadura.recuperaEstadistica("vitalidad");
+        }
+
+        for (Artefacto artefacto : artefactoEquipado) {
+            vitalidadTotal += artefacto.recuperaEstadistica("vitalidad");
+        }
+
+        return vitalidadTotal;
+    }
+
+    /**
+     * Devuelve la fuerza total del personaje como daño de ataque.
+     *
+     * @return Daño causado.
+     */
+    public double luchar() {
+
+        return this.getFuerza();
+    }
+
+    /**
+     * Reduce la vitalidad del personaje según el tipo de ataque recibido.
+     *
+     * @param ataque Cantidad de daño recibido.
+     * @param tipo   Tipo de ataque (fisico, magico, fe).
+     */
+    public void defender(double ataque, String tipo) {
+        double defensa = 0;
+
+        if (tipo.equals("fisico")) {
+            defensa = this.getFortalezaFisica();
+        } else if (tipo.equals("magico") || tipo.equals("fe")) {
+            defensa = this.getResistenciaMagica();
+        }
+
+        double dañofinal = fuerza - vitalidad;
+        this.setVitalidad(this.getVitalidad() - dañofinal);
+    }
+
 
     /**
      * Constructor que inicializa un Personaje a partir de un archivo de texto.
@@ -66,7 +279,6 @@ public abstract class Personaje {
      * @param path Ruta del archivo.
      * @throws IOException Si ocurre un error de lectura del archivo.
      */
-    // EJERCICIO 3:
     public Personaje(String path) throws IOException {
         File fichero = new File(path + ".txt");
         if (fichero.canRead()) {
@@ -151,7 +363,7 @@ public abstract class Personaje {
      * @param resistenciaMagicaFicha Resistencia mágica del personaje en la ficha.
      * @throws IOException Si ocurre un error de lectura.
      */
-    // EJERCICIO 4:
+
     public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
                                double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha) throws IOException {
 
@@ -207,6 +419,9 @@ public abstract class Personaje {
         this.agilidad = copia.agilidad;
         this.fortalezaFisica = copia.fortalezaFisica;
         this.resistenciaMagica = copia.resistenciaMagica;
+        armaEquipada = copia.armaEquipada;
+        armaduraEquipada = new HashMap<>(copia.armaduraEquipada);
+        artefactoEquipado = new ArrayList<>(copia.artefactoEquipado);
 
     }
 
@@ -286,14 +501,6 @@ public abstract class Personaje {
         this.nivel = nivel;
     }
 
-    /**
-     * Obtiene la fuerza del personaje.
-     *
-     * @return Fuerza del personaje.
-     */
-    public double getVitalidad() {
-        return vitalidad;
-    }
 
     /**
      * Establece la vitalidad del personaje.
@@ -304,14 +511,6 @@ public abstract class Personaje {
         this.vitalidad = vitalidad;
     }
 
-    /**
-     * Obtiene la fuerza del personaje.
-     *
-     * @return Fuerza del personaje.
-     */
-    public double getFuerza() {
-        return fuerza;
-    }
 
     /**
      * Establece la fuerza del personaje.
@@ -322,14 +521,6 @@ public abstract class Personaje {
         this.fuerza = fuerza;
     }
 
-    /**
-     * Obtiene la agilidad del personaje.
-     *
-     * @return Agilidad del personaje.
-     */
-    public double getAgilidad() {
-        return agilidad;
-    }
 
     /**
      * Establece la agilidad del personaje.
@@ -340,14 +531,6 @@ public abstract class Personaje {
         this.agilidad = agilidad;
     }
 
-    /**
-     * Obtiene la fortaleza física del personaje.
-     *
-     * @return Fortaleza física del personaje.
-     */
-    public double getFortalezaFisica() {
-        return fortalezaFisica;
-    }
 
     /**
      * Establece la fortaleza física del personaje.
@@ -358,14 +541,6 @@ public abstract class Personaje {
         this.fortalezaFisica = fortalezaFisica;
     }
 
-    /**
-     * Obtiene la resistencia mágica del personaje.
-     *
-     * @return Resistencia mágica del personaje.
-     */
-    public double getResistenciaMagica() {
-        return resistenciaMagica;
-    }
 
     /**
      * Establece la resistencia mágica del personaje.
@@ -427,28 +602,6 @@ public abstract class Personaje {
         }
     }
 
-    /**
-     * Devuelve el poder de ataque del personaje.
-     *
-     * @return Fuerza del personaje.
-     */
-    public double luchar() {
-        return getFuerza();
-    }
-
-    /**
-     * Defiende contra un ataque reduciendo el daño recibido según el tipo de daño.
-     *
-     * @param ataque Cantidad de daño recibido.
-     * @param tipo   Tipo de daño recibido ("fisico" o "magico").
-     */
-
-    public void defender(double ataque, String tipo) {
-        if (tipo.equals("físico"))
-            this.setVitalidad(this.getVitalidad() - (ataque - this.getFortalezaFisica()));
-        else if (tipo.equals("mágico"))
-            this.setVitalidad(this.getVitalidad() - (ataque - this.getResistenciaMagica()));
-    }
 
     public String nombreClase() {
         return this.getClass().getSimpleName();
@@ -471,7 +624,12 @@ public abstract class Personaje {
                 "Ataque: " + getFuerza() + "\n" +
                 "Velocidad: " + getAgilidad() + "\n" +
                 "Armadura: " + getFortalezaFisica() + "\n" +
-                "Resistencia mágica: " + getResistenciaMagica() + "\n";
+                "Resistencia mágica: " + getResistenciaMagica() + "\n" +
+                "Tiene un arma que es: " + armaEquipada.toString() + "\n" +
+                "Tiene un armadura que es: " + armaduraEquipada.toString() + "\n" +
+                "Tiene un artefacto que es: " + artefactoEquipado.toString() + "\n";
+
+
         if (estado = true) {
             resultado += "Esta actualmente: vivo";
         } else {

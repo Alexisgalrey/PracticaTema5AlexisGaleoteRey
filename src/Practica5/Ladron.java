@@ -22,6 +22,39 @@ public class Ladron extends Personaje {
 
     }
 
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * Equipa un arma si es espada o daga.
+     * Si el arma no es de esos tipos, muestra un mensaje indicando que solo se permiten esos tipos para ladrones.
+     *
+     * @param arma El arma que se quiere equipar.
+     */
+    public void equiparArma(Arma arma) {
+        String tipoArma = arma.getTipo();
+        if (tipoArma.equals("espada") || tipoArma.equals("daga")) {
+            super.equiparArma(arma);
+        } else {
+            System.out.println("Los ladrones solo pueden equiparse espadas o dagas.");
+        }
+    }
+
+    /**
+     * Equipa una armadura si es de cuero.
+     * Si la armadura no es de cuero, muestra un mensaje indicando que solo se permiten armaduras de cuero para ladrones.
+     *
+     * @param armadura La armadura que se quiere equipar.
+     */
+    public void equiparArmadura(Armadura armadura) {
+        String tipoMaterial = armadura.getMaterial();
+        if (tipoMaterial.equals("cuero")) {
+            super.equiparArmadura(armadura);
+        } else {
+            System.out.println("Los ladrones solo pueden usar armaduras de cuero.");
+        }
+    }
+
+
     /**
      * Constructor que inicializa un Ladrón a partir de un archivo de texto y asigna su habilidad de robar.
      *
@@ -29,7 +62,7 @@ public class Ladron extends Personaje {
      * @param robar Indica si el Ladrón tiene la habilidad de robar.
      * @throws IOException Si ocurre un error de lectura del archivo.
      */
-    // EJERCICIO 3:
+
     public Ladron(String path, boolean robar) throws IOException {
         super(path);
         File fichero = new File(path + ".txt");
@@ -61,7 +94,7 @@ public class Ladron extends Personaje {
      * @param robarFicha             Indica si el personaje en la ficha tiene la habilidad de robar.
      * @throws IOException Si ocurre un error de lectura.
      */
-    // EJERCICIO 4:
+
     public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
                                double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, boolean robarFicha) throws IOException {
 
@@ -109,6 +142,8 @@ public class Ladron extends Personaje {
      * @return Valor de la agilidad como referencia de la capacidad de robo.
      */
     public double robar() {
+
+
         return getAgilidad();
     }
 

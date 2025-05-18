@@ -36,7 +36,7 @@ public class Paladin extends Creyente {
      * @param fe   Valor de la fe del Paladín.
      * @throws IOException Si ocurre un error de lectura del archivo.
      */
-    // EJERCICIO 3:
+
     public Paladin(String path, double fe) throws IOException {
         super(path);
         File fichero = new File(path + ".txt");
@@ -50,6 +50,38 @@ public class Paladin extends Creyente {
                 campos = linea.split(": ");
                 this.fe = Double.parseDouble(campos[1]);
             }
+        }
+    }
+
+    // EJERCICIO 3 TEMA 7             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * Equipa un arma al personaje, siempre que no sea un arco ni un bastón.
+     * Los paladines no pueden usar armas mágicas o a distancia.
+     *
+     * @param arma Arma a equipar.
+     */
+    public void equiparArma(Arma arma) {
+        String tipoArma = arma.getTipo();
+        if (!tipoArma.equals("arco") && (!tipoArma.equals("baston"))) {
+            super.equiparArma(arma);
+        } else {
+            System.out.println("Los paladines no pueden usar ni arcos ni bastones.");
+        }
+    }
+
+    /**
+     * Equipa una armadura al personaje, solo si está hecha de metal.
+     * Los paladines solo aceptan armaduras pesadas.
+     *
+     * @param armadura Armadura a equipar.
+     */
+    public void equiparArmadura(Armadura armadura) {
+        String tipoMaterial = armadura.getMaterial();
+        if (tipoMaterial.equals("metal")) {
+            super.equiparArmadura(armadura);
+        } else {
+            System.out.println("Los paladines solo pueden usar armaduras de metal.");
         }
     }
 
@@ -68,7 +100,7 @@ public class Paladin extends Creyente {
      * @param feFicha                Valor de la fe del paladín en la ficha.
      * @throws IOException Si ocurre un error de lectura.
      */
-    // EJERCICIO 4:
+
     public void verificarFicha(String nombreFicha, String razaFicha, boolean estadoFicha, int nivelFicha, double vitalidadFicha, double fuerzaFicha,
                                double agilidadFicha, double fortalezaFisicaFicha, double resistenciaMagicaFicha, double feFicha) throws IOException {
 

@@ -45,7 +45,25 @@ public abstract class Creyente extends Personaje {
         super(path);
     }
 
-    // EJERCICIO 4
+    // EJERCICIO 5 TEMA 7                                           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * Calcula y devuelve la cantidad total de fe del personaje.
+     * Suma la fe base, la fe del arma equipada y la fe de todos los artefactos.
+     *
+     * @return La cantidad total de fe.
+     */
+    public double getFe() {
+        double feTotal = this.fe;
+
+        if (this.getArmaEquipada() != null) {
+            feTotal += this.getArmaEquipada().getEstadisticas().get("fe");
+        }
+        for (Artefacto artefacto : this.getArtefactos()) {
+            feTotal += artefacto.getEstadisticas().get("fe");
+        }
+        return feTotal;
+    }
 
     /**
      * Verifica y actualiza los valores de la ficha de un personaje, incluyendo el atributo de fe.
@@ -88,15 +106,6 @@ public abstract class Creyente extends Personaje {
         this.fe = fe;
     }
 
-    /**
-     * Obtiene el valor actual de la fe del Creyente.
-     *
-     * @return El valor de la fe del Creyente.
-     */
-    public double getFe() {
-
-        return fe;
-    }
 
     /**
      * Metodo abstracto que debe ser implentado por las subclases para realizar una plegaria.
